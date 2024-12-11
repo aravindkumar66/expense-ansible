@@ -1,4 +1,4 @@
-- name: creating mysql
+- name: SQL configuration
   hosts: mysql
   become: yes
   tasks:
@@ -6,5 +6,10 @@
     ansible.builtin.package:
       name: mysql
       state: present
+
+  - name: run mysql
+    ansible.builtin.service:
+      name: mysqld
+      state: started
 
 
