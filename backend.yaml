@@ -33,7 +33,7 @@
       dest: /app
       remote_src: yes
 
-  - naem: install depemdencies
+  - name: install depemdencies
     ansible.builtin.command: npm install
     args:
       chdir: /app
