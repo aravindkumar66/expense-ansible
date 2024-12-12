@@ -1,6 +1,10 @@
 - name: configure backend
   hosts: backend
   become: yes
+  vars:
+    mysql_root_password: ExpenseApp@1
+    login_host: mysql.akdevops.site
+    
   tasks:
   - name: disable default nodejs
     ansible.builtin.command: dnf module disable nodejs -y
