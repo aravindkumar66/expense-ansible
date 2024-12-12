@@ -4,7 +4,7 @@
   vars:
     mysql_root_password: ExpenseApp@1
     login_host: mysql.akdevops.site
-    
+
   tasks:
   - name: disable default nodejs
     ansible.builtin.command: dnf module disable nodejs -y
@@ -41,6 +41,12 @@
     ansible.builtin.command: npm install
     args:
       chdir: /app
+
+  - name: ansible to install pymysql
+    ansible.builtin.pip:
+      name:
+      - PyMySQL
+      executable: pip3.9
 
   - name: copy bakcend service 
     ansible.builtin.copy:
