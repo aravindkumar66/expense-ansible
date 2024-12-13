@@ -1,20 +1,19 @@
-- name: configure backend
+- name: configure backend server
   hosts: backend
   become: yes
   vars:
     mysql_root_password: ExpenseApp@1
     login_host: mysql.akdevops.site
-
   tasks:
   - name: disable default nodejs
     ansible.builtin.command: dnf module disable nodejs -y
 
-  - name: enable default nodejs 20
+  - name: enable nodejs 20
     ansible.builtin.command: dnf module enable nodejs:20 -y
 
   - name: install nodejs
     ansible.builtin.package:
-      name: "{{item}}"
+      name: "{{ item }}"
       state: present
     loop:
     - nodejs
@@ -24,7 +23,7 @@
     ansible.builtin.user:
       name: expense
 
-  - name: create app directory 
+  - name: create app directory
     ansible.builtin.file:
       path: /app
       state: directory
@@ -36,16 +35,16 @@
 
   - name: extract the code
     ansible.builtin.unarchive:
-      src: /tmp/backend.zip
+      src: /tmp/backend.zip #by default ansible thinks this is in ansible server
       dest: /app
       remote_src: yes
 
-  - name: install depemdencies
+  - name: install dependencies
     ansible.builtin.command: npm install
     args:
       chdir: /app
 
-  - name: copy bakcend service 
+  - name: copy backend service
     ansible.builtin.copy:
       src: backend.service
       dest: /etc/systemd/system/backend.service
@@ -71,11 +70,3 @@
       daemon_reload: true
       state: restarted
       name: backend
-
-
-
-      
-
-
-
-  
